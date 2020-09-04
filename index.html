@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""
+    ></script>
+
+    <title>IP Address Tracker</title>
+  </head>
+  <body>
+    <div class="link-container">
+      <h1 id="link-header">IP Address Tracker</h1>
+      <form class="IPaddress-form">
+        <input
+          type="text"
+          id="ip-address-input"
+          class="ipaddress-input"
+          placeholder="Search for any IP address or domain"
+        />
+        <button class="btn search-btn" id="search">
+          <img src="./img/icon-arrow.svg" alt="arrow" />
+        </button>
+      </form>
+      <span class="error" id="error">Address not found</span>
+    </div>
+    <div class="info-container">
+      <div class="info">
+        <div class="ip-address info-item">
+          <h3 class="info-header">IP ADDRESS</h3>
+          <span class="info-content" id="ip-address-info">default</span>
+        </div>
+        <div class="location info-item">
+          <h3 class="info-header">LOCATION</h3>
+          <span class="info-content" id="location-info">default</span>
+        </div>
+        <div class="timezone info-item">
+          <h3 class="info-header">TIMEZONE</h3>
+          <span class="info-content" id="timezone-info">default</span>
+        </div>
+        <div class="ISP info-item">
+          <h3 class="info-header">ISP</h3>
+          <span class="info-content" id="isp-info">default</span>
+        </div>
+      </div>
+    </div>
+    <div id="searchMap"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
