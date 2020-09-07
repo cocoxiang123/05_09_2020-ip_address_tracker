@@ -1,6 +1,7 @@
 const input = document.getElementById("ip-address-input");
 const search = document.getElementById("search");
 const error = document.getElementById("error");
+const loading = document.getElementById("loading");
 const ip_addressEL = document.getElementById("ip-address-info");
 const locationEL = document.getElementById("location-info");
 const timeZoneEL = document.getElementById("timezone-info");
@@ -11,7 +12,8 @@ let latitude = 51.505;
 let longitude = -0.09;
 
 //fetching data from API
-async function getData() {
+async function updateData() {
+  loading.style.display = "block";
   try {
     const dataResponse = await fetch(
       `https://geo.ipify.org/api/v1?apiKey=at_doRnANIejc4iLD5ErsJ5Klo0yTRDZ&ipAddress=${ip_address}`
@@ -20,8 +22,11 @@ async function getData() {
     latitude = data.location.lat;
     longitude = data.location.lng;
     updateInfo(data);
+    createMap();
+    loading.style.display = "none";
   } catch (error) {}
 }
+
 //set the infomation text
 function updateInfo(data) {
   ip_addressEL.innerText = data.ip;
@@ -29,16 +34,14 @@ function updateInfo(data) {
   timeZoneEL.innerText = `UTC ${data.location.timezone}`;
   ISPEL.innerText = data.isp;
 }
+
 //create map
 function createMap() {
   //render the map
   document.getElementById("searchMap").innerHTML = "<div id='mapid'></div>";
 
   //create new map
-  var mymap = L.map("mapid", {
-    center: [latitude, longitude],
-    zoom: 13,
-  });
+  var mymap = L.map("mapid").setView([latitude, longitude], 11);
   L.tileLayer(
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw",
     {
@@ -62,13 +65,14 @@ function createMap() {
     mymap
   );
 }
-//update map
-function updateMap() {}
+
 //validate ip address
 function validateAddress(address) {
   const reg = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
   return reg.test(address);
 }
+
+//click search btn
 function onHandleSearch(e) {
   e.preventDefault();
   console.log(input.value.trim());
@@ -79,8 +83,7 @@ function onHandleSearch(e) {
     ip_address = input.value;
     if (validateAddress(ip_address)) {
       showSuccess();
-      getData();
-      createMap();
+      updateData();
     } else {
       showError("Address not found");
     }
@@ -91,12 +94,13 @@ function showError(message) {
   error.style.opacity = 1;
   error.innerText = message;
 }
+
 function showSuccess() {
   error.style.opacity = 0;
 }
 //event listener
 search.addEventListener("click", onHandleSearch);
 
-getData();
+updateData();
 createMap();
 //192.212.174.101
